@@ -11,6 +11,10 @@ EMMをカードに投げる設定になっている時、EMGも投げるよう�
 入手
 git clone https://github.com/AngieKawai-4649/libarib25.git
 
+or
+
+https://github.com/AngieKawai-4649/libarib25/releases/download/master/master_src.tar.gz
+
 ダウンロード後にconfig.shの実行bitをたてること
 
 $ cd ./src
