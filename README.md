@@ -8,6 +8,12 @@ Linux用B25デコーダー
     
     EMMをカードに投げる設定になっている時、EMGも投げるように修正した
 
+    入手
+    git clone https://github.com/AngieKawai-4649/libarib25.git
+    ダウンロード後にconfig.shの実行bitをたてること
+    $ cd ./src
+    $ chmod +x config.sh
+
 ２．ビルド
   
   libarib25.so
