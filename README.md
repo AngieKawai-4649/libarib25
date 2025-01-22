@@ -9,6 +9,7 @@ EMGに対応
 EMMをカードに投げる設定になっている時、EMGも投げるように修正した
 
 入手
+
 git clone https://github.com/AngieKawai-4649/libarib25.git
 
 or
