@@ -1,0 +1,39 @@
+#
+PROGRAM = libarib25.so
+
+SRCC = multi2.cc
+SRCS = arib_std_b25.c b_cas_card.c getopt.c ts_section_parser.c version.c
+OBJS = $(subst .c,.o,$(SRCS))
+OBJS += $(subst .cc,.o,$(SRCC))
+PREFIX = /usr/local
+
+RM := rm -f
+CXX := g++
+CC := gcc
+
+CPPFLAGS = -Wall -fPIC -O2 `pkg-config libpcsclite --cflags`
+LDFLAGS = -fPIC -shared
+
+all: config $(PROGRAM)
+
+uninstall:
+	rm -vf $(PREFIX)/lib/$(PROGRAM)
+
+install: uninstall
+	install -m 755 $(PROGRAM) $(PREFIX)/lib
+	ldconfig
+
+$(PROGRAM): $(OBJS)
+	$(LINK.o) $^ -shared -o $@
+
+config:
+	@./config.sh
+
+.PHONY: clean
+
+clean:
+	$(RM) $(OBJS) $(PROGRAM)
+depend:
+	$(CXX) -MM $(SRCS) > Make_lib.dep
+
+-include Make_lib.dep
