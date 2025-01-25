@@ -1,61 +1,47 @@
-Linux用B25デコーダー
+# Linux用B25デコーダー  
 
-ベース stz2012 stz-0.2.5
+ベース stz2012 stz-0.2.5  
 
-１．カスタマイズ箇所
+## 【改造箇所】  
 
-EMGに対応
-    
-EMMをカードに投げる設定になっている時、EMGも投げるように修正した
+１．EMGに対応  
+　EMMをカードに投げる設定になっている時、EMGも投げるように修正した
 
-入手
+## 【入手】  
 
-git clone https://github.com/AngieKawai-4649/libarib25.git
+git clone https://github.com/AngieKawai-4649/libarib25.git  
+or  
+https://github.com/AngieKawai-4649/libarib25/releases/download/master/master_src.tar.gz  
 
-or
+***ダウンロード後にconfig.shの実行bitをたてること***  
+$ cd ./src  
+$ chmod +x config.sh  
 
-https://github.com/AngieKawai-4649/libarib25/releases/download/master/master_src.tar.gz
-
-ダウンロード後にconfig.shの実行bitをたてること
-
-$ cd ./src
-
-$ chmod +x config.sh
-
-２．ビルド
+## 【ビルド】  
   
-  libarib25.so
+  [libarib25.so]  
+  $ cd ./src  
+  $ make -f Make_lib  
+  $ sudo make -f Make_lib install  
   
-  $ cd ./src
+  ***ldキャッシュにlibarib25.soが組み込まれていることを確認***  
+  $ ldconfig -p | grep libarib25  
   
-  $ make -f Make_lib
+  [b25]  
+  $ cd ./src  
+  $ make -f Make_exe [オプション]  
+  $ sudo make -f Make_exe install  
   
-  $ sudo make -f Make_lib install
+  詳細なmakeオプションは Make_exeコメント行参照  
 
-  ldキャッシュにlibarib25.soが組み込まれていることを確認
-  
-  $ ldconfig -p | grep libarib25
+## 【共有ライブラリのリンク】  
 
-  b25
-  
-  $ cd ./src
-  
-  $ make -f Make_exe
-  
-  $ sudo make -f Make_exe install
-  
-  詳細なmakeオプションは Make_exeコメント行参照
+  各録画アプリ(recfsusb2n, recdvb等)でB25解除する場合、  
+  各アプリのMakefileを修正しlibarib25.soをリンクする  
+  ここで配布しているLinux用録画アプリ用Makefileは対応済み  
 
-３．共有ライブラリのリンク
-
-  各録画アプリ(recfsusb2n, recdvb等)でB25解除する場合、
-  
-  各アプリのMakefileを修正しlibarib25.soをリンクする
-  
-  ここで配布しているLinux用録画アプリは対応済み
-
-  確認方法
+  確認方法  
   
   例： 
   
-  $ ldd recfsusb2n を実行しリンク一覧にlibarib25.soがあること
+  $ ldd recfsusb2n を実行しリンク一覧にlibarib25.soがあること  
