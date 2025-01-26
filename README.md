@@ -38,10 +38,18 @@ $ chmod +x config.sh
 
   各録画アプリ(recfsusb2n, recdvb等)でB25解除する場合、  
   各アプリのMakefileを修正しlibarib25.soをリンクする  
+  multi2.cc C++ソースコードが含まれている為、リンクするコマンドはgccではなくg++で行うこと  
   ここで配布しているLinux用録画アプリ用Makefileは対応済み  
 
-  確認方法  
-  
-  例： 
-  
+  リンク確認方法  
+  例：  
   $ ldd recfsusb2n を実行しリンク一覧にlibarib25.soがあること  
+
+## 【共有ライブラリの中身を調べる】  
+
+　共有ライブラリlibarib25.soがどんなソースファイルで構成されているか調べる  
+
+    $ readelf -s libarib25.so | grep FILE
+   
+
+ 
