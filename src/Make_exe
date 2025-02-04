@@ -1,0 +1,79 @@
+#
+# starbucks (libstarbucks.so) を使用する場合
+# libstarbucks.so を予めインストールする
+# $ make -f Make_exe STARBUCKS=1
+# 内蔵カードリーダーを使用する場合
+# ktv-fsusb2n or sanpakun のカードリーダーを複数の録画アプリで使用する為のプログラム
+# ktv_cardreader を予めインストールする
+# $ make -f Make_exe BUILT-IN=1
+# 外付けUSBカードリーダーを使用する場合
+# $ make -f Make_exe EXTERNAL=1
+# または
+# $ make -f Make_exe
+
+ifdef STARBUCKS
+LIBS    = -larib25 -lstarbucks
+else
+ifdef BUILT-IN
+DB_CARDREADER = -DDB_CARDREADER
+PCSC = `pkg-config libpcsclite --cflags`
+LIBS    = -larib25 -lktvcardreader
+B25_PATH = ./arib25
+else
+ifdef EXTERNAL
+LIBS    = -larib25 `pkg-config libpcsclite --libs`
+else
+LIBS    = -larib25 `pkg-config libpcsclite --libs`
+endif
+endif
+endif
+
+
+CXX = g++
+CC	= gcc
+CFLAGS	= -O2 -Wall -pthread -D_LARGEFILE_SOURCE $(DB_CARDREADER) $(PCSC)
+CXXFLAGS = -O2 -Wall -pthread -D_LARGEFILE_SOURCE $(DB_CARDREADER) $(PCSC)
+OBJS	= getopt.o td.o
+
+LIBS	+= -lpthread
+TARGET	= b25
+PREFIX = /usr/local
+
+ifeq ($(shell getconf LONG_BIT),32)
+CFLAGS	+= -D_FILE_OFFSET_BITS=64
+endif
+
+all: $(TARGET)
+
+clean:
+	rm -f $(OBJS) $(TARGET)
+
+uninstall:
+	rm -vf $(PREFIX)/bin/$(TARGET)
+
+install: uninstall
+	install -m 755 $(TARGET) $(PREFIX)/bin
+
+$(TARGET): $(OBJS)
+	$(CXX) -o $(TARGET) $(OBJS) $(LIBS)
+ifdef STARBUCKS
+	@echo "\n"B25 DECODE USING STARBUCKS"\n"
+else
+ifdef BUILT-IN
+	@echo "\n"B25 DECODE USING BUILT-IN CARDREADER"\n"
+else
+ifdef EXTERNAL
+	@echo "\n"B25 DECODE USING EXTERNAL CARDREADER"\n"
+endif
+endif
+endif
+
+depend:
+	$(CC) -MM $(OBJS:.o=.c) > Make_exe.dep
+ifdef BUILT-IN
+	$(CC) -MM $(B25_OBJS_EXTC:.o=.c) >> Makefile.dep
+	$(CC) -MM $(B25_OBJS_EXTP:.o=.cpp) >> Makefile.dep
+endif
+
+-include Make_exe.dep
+
