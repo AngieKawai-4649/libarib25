@@ -1,3 +1,0 @@
-getopt.o: getopt.c getopt.h
-td.o: td.c config.h getopt.h arib_std_b25.h arib25_api.h portable.h \
- b_cas_card.h
