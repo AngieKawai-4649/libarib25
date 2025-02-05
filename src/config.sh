@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 if [ -f ./config.h ]; then
 	mv -f config.h config.h.bak 
 fi
