@@ -13,10 +13,6 @@ git clone https://github.com/AngieKawai-4649/libarib25.git
 or  
 https://github.com/AngieKawai-4649/libarib25/releases/download/master/master_src.tar.gz  
 
-***ダウンロード後にconfig.shの実行bitをたてること***  
-$ cd ./src  
-$ chmod +x config.sh  
-
 ## 【ビルド】  
   
   [libarib25.so]  
